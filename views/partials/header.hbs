@@ -1,0 +1,58 @@
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-primary">-->
+<!--    <a class="navbar-brand" href="/">Card Holders</a>-->
+
+<!--    <ul class="navbar-nav ml-auto">-->
+<!--        {{#if isLogged}}-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="#">Welcome, {{username}}</a>-->
+<!--            </li>-->
+
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/logout">Logout</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/register">Register worker</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/member/create">Create member</a>-->
+<!--            </li>-->
+<!--        {{else}}-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="/login">Login</a>-->
+<!--            </li>-->
+<!--        {{/if}}-->
+<!--    </ul>-->
+<!--</nav>-->
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Card Holders</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <form class="d-flex" method="get" action="/search/result">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+        </form>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Welcome, {{username}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register worker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/member/create">Create member</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>

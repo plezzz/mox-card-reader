@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MOX Card Holders</title>
+    <link href="/css/site.css" type="text/css" rel="stylesheet">
+    <link href="/css/horizotal-timeline.css" type="text/css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/module/bootstrap-5.1.0/css/bootstrap.min.css">
+    <script src="/module/bootstrap-5.1.0/js/bootstrap.min.js"></script>
+    <link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+</head>
+<body>
+<div class="container">
+    {{>header}}
+    {{#if message}}
+        {{>error}}
+    {{/if}}
+    <main>
+        {{{ body }}}
+    </main>
+    <footer>
+        {{>footer}}
+    </footer>
+</div>
+</body>
+</html>

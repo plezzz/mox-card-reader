@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Search</h1>
+        <p class="lead">Card holders</p>
+    </div>
+</div>
+
+<div>
+    <h1 class="text-center">Резултати за: {{q}}</h1>
+    <div class="container mt-3">
+        {{#ifCond members cards}}
+            {{#if members}}
+                <h2 class="text-center">Резултати за потребители</h2>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Създадена на</th>
+                        <th scope="col">Име</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Телефон</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each members}}
+
+                            <tr onclick="window.location='/member/details/{{_id}}';">
+                                <td>{{dateFixed createdAt}}</td>
+                                <th scope="row">{{firstName}} {{lastName}}</th>
+                                <td>{{email}}</td>
+                                <td>{{phone}}</td>
+                            </tr>
+
+
+                    {{/each}}
+                    </tbody>
+                    <!--        TODO: Must be with pagination-->
+                </table>
+            {{/if}}
+            {{#if cards}}
+                <h2 class="text-center">Резултати за карти</h2>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Създадена на</th>
+                        <th scope="col">Сериен номер</th>
+                        <th scope="col">Статус</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each cards}}
+                        <tr>
+                            <td>{{dateFixed createdAt}}</td>
+                            <th scope="row">{{serialNumber}}</th>
+                            <th scope="row">{{status}}</th>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                    <!--        TODO: Must be with pagination-->
+                </table>
+            {{/if}}
+        {{else}}
+            <p>Няма потребители и карти съвпадащи с това търсене!</p>
+        {{/ifCond}}
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Card holders</h1>
+        <p class="lead">Card holders</p>
+    </div>
+</div>
+
+<div>
+    <h1 class="text-center">Top members</h1>
+    <div class="container mt-3">
+        {{#if members}}
+            <div class="row d-flex justify-content-center">
+                <div class="card-deck">
+                    {{#each members}}
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title">{{firstName}}</h4>
+                                <a href="/member/details/{{_id}}"><button type="button" class="btn btn-primary">Details</button></a>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        {{else}}
+            <h4 class="text-center">No members...</h4>
+        {{/if}}
+    </div>
+</div>

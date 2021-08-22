@@ -1,0 +1,281 @@
+<link href="/css/datepicker.css" type="text/css" rel="stylesheet">
+<link href="/module/bootstrap-datepicker-1.9.0/css/bootstrap-datepicker.css" type="text/css" rel="stylesheet">
+<div class="container">
+    <h1 class="my-4">Справка за: {{member.firstName}} {{member.lastName}}</h1>
+    <div class="row d-flex">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Детайли за картодържателя</h5>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Име</span>
+                        </div>
+                        <input type="text" class="form-control" id="firstName" aria-describedby="basic-addon3" disabled
+                               value="{{member.firstName}}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Фамилия</span>
+                        </div>
+                        <input type="text" class="form-control" id="lastName" aria-describedby="basic-addon3" disabled
+                               value="{{member.lastName}}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Телефон</span>
+                        </div>
+                        <input type="text" class="form-control" id="phone" aria-describedby="basic-addon3" disabled
+                               value="{{member.phone}}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Имейл</span>
+                        </div>
+                        <input type="text" class="form-control" id="email" aria-describedby="basic-addon3" disabled
+                               value="{{member.email}}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="type">Тип</span>
+                        </div>
+                        <input type="text" class="form-control" id="type" aria-describedby="basic-addon3" disabled
+                               value="{{member.type}}">
+                    </div>
+                    <a href="/member/edit/{{member._id}}" class="btn btn-primary">Edit</a>
+                    <small class="float-right">Създадена: {{dateFixed member.createdAt}}
+                        от {{member.createdBy.username}}
+                        <br>
+                        Редактирана: {{dateFixed member.updatedAt}} от: {{member.editedBy.username}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="card ml-auto">
+                <div class="card-body">
+                    <h5 class="card-title">Детайли за карта</h5>
+                    {{#if card}}
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">Име</span>
+                            </div>
+                            <input type="text" class="form-control" id="cardName" aria-describedby="basic-addon3"
+                                   disabled
+                                   value="{{card.cardName}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">Сериен №</span>
+                            </div>
+                            <input type="text" class="form-control" id="serialNumber" aria-describedby="basic-addon3"
+                                   disabled
+                                   value="{{card.serialNumber}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="validity">Валидна от</span>
+                            </div>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"
+                                   disabled
+                                   value="{{card.serialNumber}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="validity">Валидна до</span>
+                            </div>
+                            <input type="text" class="form-control" id="validity" aria-describedby="basic-addon3"
+                                   disabled
+                                   value="{{card.serialNumber}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="status">Статус</span>
+                            </div>
+                            <input type="text" class="form-control" id="status" aria-describedby="basic-addon3"
+                                   disabled
+                                   value="{{status card.status}}">
+                        </div>
+                        <a href="#" class="btn btn-primary">Edit</a>
+                        <a href="/recharge/creater?id={{member._id}}" class="btn btn-primary">Recharge</a>
+                        <small class="float-right">Create: {{dateFixed member.createdAt}}
+                            from {{member.createdBy.username}}<br>
+                            Edit: {{dateFixed member.updatedAt}} from: {{member.editedBy.username}}
+                        </small>
+                    {{else}}
+                        <form class="text-center border border-light p-5" action="/member/add-card/{{member._id}}"
+                              method="post">
+                            <h1>Add card</h1>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon3">Card Number</span>
+                                </div>
+                                <select class="form-control" id="basic-url" name="serialNumber"
+                                        aria-describedby="basic-addon3">
+                                    <option value="#" selected>Choose Card ID:</option>
+                                    {{#each cards}}
+                                        <option value="{{this._id}}">{{this.serialNumber}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <p>Последни влизания</p>
+    <div class="Timeline">
+        <div class="now">
+            Предишни
+        </div>
+        {{#each card.entries}}
+            <svg height="5" width="200">
+                <line x1="0" y1="0" x2="200" y2="0" style="stroke:#004165;stroke-width:5"/>
+                Sorry, your browser does not support inline SVG.
+            </svg>
+            <div class="event1">
+                <div class="event{{#odd @index}}{{/odd}}Bubble">
+                    <div class="eventTime">
+                        <div class="DayDigit">{{day createdAt}}</div>
+                        <div class="Day">
+                            {{week createdAt}}
+                            <div class="MonthYear">{{monthYear createdAt}}</div>
+                        </div>
+                    </div>
+                    <div class="eventTitle">{{time createdAt}}</div>
+                </div>
+                <svg height="20" width="20">
+                    <circle cx="10" cy="11" r="5" fill="#004165"/>
+                </svg>
+            </div>
+        {{/each}}
+    </div>
+<hr>
+    <p>Последни презареждания</p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Months</th>
+            <th scope="col">By</th>
+            <th scope="col">By</th>
+            <th scope="col">By</th>
+            <th scope="col">By</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each member.recharge}}
+            <tr>
+                <td>{{dateFixed createdAt}}</td>
+                <th scope="row">{{dayMonthYear from}}</th>
+                <th scope="row">{{dayMonthYear to}}</th>
+                <td>{{months}}</td>
+                <td>{{createdBy.username}}</td>
+                <td>{{dateFixed createdAt}}</td>
+                <td>{{createdBy.username}}</td>
+                <td>{{dateFixed createdAt}}</td>
+
+                <td>
+                    <input type="hidden" value="{{_id}}">
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRecharge" id="editRechargeButton" onclick="setID(this,'e')">
+                       Edit
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRecharge" id="deleteRechargeButton" onclick="setID(this,'d')">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+<!--        TODO: Must be with pagination-->
+    </table>
+    </div>
+<!--    {{{json member}}}-->
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editRecharge" tabindex="-1" aria-labelledby="editRecharge" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="text-center border border-light p-5" method="post">
+                    <h1>Recharge card</h1>
+                    <div class="wrapper">
+                        <div class="form-group">
+                            <label for="date">Дата</label>
+                            <input type="text" class="dateselect form-control" required="required" id="date" name="date" autocomplete="off" value="{{obj.date}}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="months">Месеци</label>
+                            <input type="number" class="form-control" required="required" id="months" name="months" autocomplete="off"   min="1" max="12" step="1" value="{{obj.months}}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="member">Member</label>
+                            <input type="hidden" class="form-control" required="required" id="member" name="member" autocomplete="off" value="{{member._id}}"/>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning">Change</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteRecharge" tabindex="-1" aria-labelledby="deleteRecharge" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="text-center border border-light p-5" method="post">
+                    <p>Сигурни ли сте, че искате да изтриете този запис?</p>
+                    <div class="form-group">
+                        <label for="memberID"></label>
+                        <input type="hidden" class="form-control" required="required" id="memberID" name="memberID" autocomplete="off" value="{{member._id}}"/>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Затвори</button>
+                <button type="submit" class="btn btn-warning">Да</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/module/bootstrap-datepicker-1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    $('#date').datepicker({
+        format: "dd/mm/yyyy",
+        weekStart: 1,
+        todayBtn: "linked",
+        language: "bg",
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
+<script type="text/javascript">
+    function setID(tableRow,a) {
+        const id = tableRow.parentNode.firstElementChild.value
+        let action = a === 'e'? "#editRecharge" : "#deleteRecharge"
+        let path = a === 'e'? "editr" : "deleter"
+
+        let form = document.querySelector(`${action} > div > div > div.modal-body > form`)
+        form.setAttribute('action', `/recharge/${path}/${id}`);
+    }
+</script>
