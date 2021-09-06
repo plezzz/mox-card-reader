@@ -96,7 +96,10 @@
                                    value="{{status card.status}}">
                         </div>
                         <a href="#" class="btn btn-primary">Edit</a>
-                        <a href="/recharge/creater?id={{member._id}}" class="btn btn-primary">Recharge</a>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                data-bs-target="#createRecharge" id="createRechargeButton">
+                            Edit
+                        </button>
                         <small class="float-right">Create: {{dateFixed member.createdAt}}
                             from {{member.createdBy.username}}<br>
                             Edit: {{dateFixed member.updatedAt}} from: {{member.editedBy.username}}
@@ -152,7 +155,7 @@
             </div>
         {{/each}}
     </div>
-<hr>
+    <hr>
     <p>Последни презареждания</p>
     <table class="table table-hover">
         <thead>
@@ -182,20 +185,61 @@
 
                 <td>
                     <input type="hidden" value="{{_id}}">
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRecharge" id="editRechargeButton" onclick="setID(this,'e')">
-                       Edit
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRecharge"
+                            id="editRechargeButton" onclick="setID(this,'e')">
+                        Edit
                     </button>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRecharge" id="deleteRechargeButton" onclick="setID(this,'d')">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteRecharge"
+                            id="deleteRechargeButton" onclick="setID(this,'d')">
                         Delete
                     </button>
                 </td>
             </tr>
         {{/each}}
         </tbody>
-<!--        TODO: Must be with pagination-->
+        <!--        TODO: Must be with pagination-->
     </table>
-    </div>
+</div>
 <!--    {{{json member}}}-->
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createRecharge" tabindex="-1" aria-labelledby="createRecharge" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="text-center border border-light p-5" method="post">
+                    <h1>Recharge card</h1>
+                    <div class="wrapper">
+                        <div class="form-group">
+                            <label for="date">Дата</label>
+                            <input type="text" class="dateselect form-control" required="required" id="date" name="date"
+                                   autocomplete="off" value="{{obj.date}}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="months">Месеци</label>
+                            <input type="number" class="form-control" required="required" id="months" name="months"
+                                   autocomplete="off" min="1" max="12" step="1" value="{{obj.months}}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="member">Member</label>
+                            <input type="hidden" class="form-control" required="required" id="member" name="member"
+                                   autocomplete="off" value="{{member._id}}"/>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-warning">Change</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -212,23 +256,27 @@
                     <div class="wrapper">
                         <div class="form-group">
                             <label for="date">Дата</label>
-                            <input type="text" class="dateselect form-control" required="required" id="date" name="date" autocomplete="off" value="{{obj.date}}"/>
+                            <input type="text" class="dateselect form-control" required="required" id="date" name="date"
+                                   autocomplete="off" value="{{obj.date}}"/>
                         </div>
                         <div class="form-group">
                             <label for="months">Месеци</label>
-                            <input type="number" class="form-control" required="required" id="months" name="months" autocomplete="off"   min="1" max="12" step="1" value="{{obj.months}}"/>
+                            <input type="number" class="form-control" required="required" id="months" name="months"
+                                   autocomplete="off" min="1" max="12" step="1" value="{{obj.months}}"/>
                         </div>
                         <div class="form-group">
                             <label for="member">Member</label>
-                            <input type="hidden" class="form-control" required="required" id="member" name="member" autocomplete="off" value="{{member._id}}"/>
+                            <input type="hidden" class="form-control" required="required" id="member" name="member"
+                                   autocomplete="off" value="{{member._id}}"/>
                         </div>
                     </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-warning">Change</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-warning">Change</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
@@ -246,14 +294,16 @@
                     <p>Сигурни ли сте, че искате да изтриете този запис?</p>
                     <div class="form-group">
                         <label for="memberID"></label>
-                        <input type="hidden" class="form-control" required="required" id="memberID" name="memberID" autocomplete="off" value="{{member._id}}"/>
+                        <input type="hidden" class="form-control" required="required" id="memberID" name="memberID"
+                               autocomplete="off" value="{{member._id}}"/>
                     </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Затвори</button>
+                        <button type="submit" class="btn btn-warning">Да</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Затвори</button>
-                <button type="submit" class="btn btn-warning">Да</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>
@@ -269,11 +319,14 @@
         todayHighlight: true
     });
 </script>
+<script>
+   // $('#createRechargeButton')[0].click();
+</script>
 <script type="text/javascript">
-    function setID(tableRow,a) {
+    function setID(tableRow, a) {
         const id = tableRow.parentNode.firstElementChild.value
-        let action = a === 'e'? "#editRecharge" : "#deleteRecharge"
-        let path = a === 'e'? "editr" : "deleter"
+        let action = a === 'e' ? "#editRecharge" : "#deleteRecharge"
+        let path = a === 'e' ? "editr" : "deleter"
 
         let form = document.querySelector(`${action} > div > div > div.modal-body > form`)
         form.setAttribute('action', `/recharge/${path}/${id}`);

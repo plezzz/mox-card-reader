@@ -15,9 +15,12 @@ module.exports = {
         details(req, res, next) {
             let id = req.params.memberID;
             //TODO: Get Json array from cookie, not just string
-            let error = req.cookies["error"];
-            res.clearCookie("error", { httpOnly: true });
-            let message = [error]
+
+            let message = []
+            if (req.cookies["error"] !== undefined) {
+                message.push(req.cookies["error"])
+            }
+            res.clearCookie("error", {httpOnly: true});
             Member
                 .findOne({_id: id})
                 .populate('createdBy')
@@ -32,6 +35,12 @@ module.exports = {
                 })
                 .lean()
                 .then(member => {
+                    let options = {member}
+                    if (message.length > 0) {
+                        console.log(message.length)
+                        console.log(message)
+                        options['message'] = message
+                    }
                     if (member.card.length > 0) {
                         Card.findOne({_id: member.card[0]._id})
                             .lean()
@@ -46,12 +55,14 @@ module.exports = {
                             })
                             .limit(1)
                             .then(card => {
-                                card.entries.sort(function (a, b) {
-                                    var c = new Date(a.createdAt);
-                                    var d = new Date(b.createdAt);
-                                    return c - d;
-                                });
-                                res.render(templateDir('details'), {member, card,message})
+                                // card.entries.sort(function (a, b) {
+                                //     var c = new Date(a.createdAt);
+                                //     var d = new Date(b.createdAt);
+                                //     return c - d;
+                                // });
+                                options['card'] = card
+                                //   console.log(options)
+                                res.render(templateDir('details'), options)
                             })
 
                     } else {
@@ -59,8 +70,8 @@ module.exports = {
                             .find({cardOwner: {$eq: null}})
                             .lean()
                             .then(cards => {
-                                //  console.log(cards);
-                                res.render(templateDir('details'), {member, cards,message})
+                                options['cards'] = cards
+                                res.render(templateDir('details'), options)
                             })
                     }
                 })
