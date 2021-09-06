@@ -47,8 +47,8 @@ module.exports = {
                             .populate({
                                 path: 'entries',
                                 options: {
-                                    limit: 10,
                                     sort: {createdAt: -1},
+                                    limit: 10,
                                     // skip: req.params.pageIndex*2
 
                                 }
