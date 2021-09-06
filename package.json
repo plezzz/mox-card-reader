@@ -1,34 +1,28 @@
 {
-  "name": "express-js-26-oct-2019-exam",
+  "name": "Mox-card-reader",
   "version": "1.0.0",
-  "description": "SoftUni ExpressJS - 26 Oct 2019 - Exam Shoe Theaters",
+  "description": "Card holder site for mox.games",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/plezzz/SoftUni-JS-WEB.git"
+    "url": "git+ssh://git@github.com/plezzz/mox-card-reader.git"
   },
   "keywords": [
-    "workshop",
-    "softuni",
-    "express",
-    "nodejs",
-    "handlebars",
-    "mongodb",
-    "mongoose",
-    "Theaters",
-    "Play",
-    "JS",
-    "exam"
+    "nfc cards",
+    "rfid",
+    "mox.games",
+    "gmzone"
   ],
   "author": "Nikolay Kovachev",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/plezzz/SoftUni-JS-WEB/issues"
+    "url": "https://github.com/plezzz/mox-card-reader/issues"
   },
-  "homepage": "https://github.com/plezzz/SoftUni-JS-WEB#readme",
+  "homepage": "https://github.com/plezzz/mox-card-reader#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
