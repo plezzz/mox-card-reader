@@ -1,8 +1,10 @@
 global.__basedir = __dirname;
+require('newrelic');
 const express = require('express');
 const {port} = require('./config');
 const messages = require("./config/messages")(port);
 const globalErrorHandler = require('./config/global-error-handler');
+
 
 const app = express();
 
