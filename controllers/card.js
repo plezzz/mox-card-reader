@@ -1,4 +1,4 @@
-const {Card, User, Entries, Member, Recharge} = require('../models');
+const {Card, Entries, Member} = require('../models');
 const {errorCourse} = require('../config/messages');
 const uuid = require('uuid');
 const Moment = require('moment');
@@ -35,7 +35,7 @@ module.exports = {
             Card
                 .findOne({_id: cardID}).remove().exec().then(() => {
                 console.log(req)
-                res.redirect('/');
+                res.redirect('/card/all-cards');
             })
         }
     },
@@ -70,35 +70,44 @@ module.exports = {
                             res.json({item1: `Created new card with id ${el._id}`, item2: "Пешо", item3: 2})
                         })
                     } else if (result.length === 1) {
-                        Member.findById(result[0].cardOwner).populate({
-                            path: 'recharge',
-                            options: {limit: 10, sort: {'createdAt': -1}}
-                        })
-                            .then(member => {
-                                let periods = [];
-                                member.recharge.forEach(recharge => {
-                                    let range = moment().range(moment(recharge.from), moment(recharge.to))
-                                    periods.push(range.contains(moment()));
+                        if (result[0].cardOwner) {
+                            Member
+                                .findById(result[0].cardOwner)
+                                .populate({
+                                    path: 'recharge',
+                                    options: {limit: 10, sort: {'createdAt': -1}}
                                 })
-                                if (periods.includes(true) && result[0].status) {
-                                    Entries.create({deviceID}).then(function (el) {
-                                        Card.updateOne({_id: result[0]._id}, {$push: {entries: el._id}}).then(function (el) {
-                                            res.json({
-                                                item1: `${member.firstName} ${member.lastName}`,
-                                                item2: "Valid",
-                                                item3: 1
+                                .then(member => {
+                                    let periods = [];
+                                    member.recharge.forEach(recharge => {
+                                        let range = moment().range(moment(recharge.from), moment(recharge.to))
+                                        periods.push(range.contains(moment()));
+                                    })
+                                    if (periods.includes(true) && result[0].status) {
+                                        Entries.create({deviceID}).then(function (el) {
+                                            Card.updateOne({_id: result[0]._id}, {$push: {entries: el._id}}).then(function () {
+                                                res.json({
+                                                    item1: `${member.firstName} ${member.lastName}`,
+                                                    item2: "Valid",
+                                                    item3: 1
+                                                })
                                             })
                                         })
-                                    })
-                                } else {
-                                    res.json({
-                                        item1: `${member.firstName} ${member.lastName}`,
-                                        item2: "Not Valid",
-                                        item3: 0
-                                    })
-                                }
+                                    } else {
+                                        res.json({
+                                            item1: `${member.firstName} ${member.lastName}`,
+                                            item2: "Not Valid",
+                                            item3: 0
+                                        })
+                                    }
+                                })
+                        }else {
+                            res.json({
+                                item1: `Error:`,
+                                item2: "Card is not assigned",
+                                item3: 3
                             })
-
+                        }
 
                     } else {
                         res.json({text: "Call Niki, Not unique serial number", item2: "item2val"});
