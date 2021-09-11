@@ -7,6 +7,7 @@ module.exports = (router) => {
     router.get('/edit/:memberID', checkAuth(true), member.get.edit);
     router.get('/all', checkAuth(true), member.get.all);
     router.get('/archive/:cardID', checkAuth(true), member.get.archive);
+    router.get('/delete/:memberID', checkAuth(true), member.get.delete);
 
     router.post('/create', checkAuth(true), member.post.create)
     router.post('/edit/:memberID', checkAuth(true), member.post.edit);

@@ -22,7 +22,21 @@ module.exports = {
                 })
         },
         delete: function (req, res, next) {
+            let cardID = req.params.cardID;
+            Card
+                .findOne({_id: cardID})
+                .lean()
+                .then(card => {
+                    card.entries.forEach(entry => {
+                        Entries.findOne({_id: entry._id}).remove().exec()
+                    })
 
+                })
+            Card
+                .findOne({_id: cardID}).remove().exec().then(() => {
+                console.log(req)
+                res.redirect('/');
+            })
         }
     },
 
@@ -38,7 +52,8 @@ module.exports = {
                 serialNumber,
                 deviceID
             } = req.body
-            console.log(cardType)
+            console.log("Card data type", cardType);
+
             let serialNumberByValue = [serialNumber0, serialNumber1, serialNumber2, serialNumber3];
 
             Card.find({serialNumber: serialNumber}, function (err, result) {
@@ -65,7 +80,7 @@ module.exports = {
                                     let range = moment().range(moment(recharge.from), moment(recharge.to))
                                     periods.push(range.contains(moment()));
                                 })
-                                if (periods.includes(true)) {
+                                if (periods.includes(true) && result[0].status) {
                                     Entries.create({deviceID}).then(function (el) {
                                         Card.updateOne({_id: result[0]._id}, {$push: {entries: el._id}}).then(function (el) {
                                             res.json({

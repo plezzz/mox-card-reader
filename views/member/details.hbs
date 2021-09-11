@@ -37,12 +37,21 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
+                            <span class="input-group-text" id="status">Входове</span>
+                        </div>
+                        <input type="text" class="form-control" id="status" aria-describedby="basic-addon3"
+                               disabled
+                               value="{{member.totalEntries}}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
                             <span class="input-group-text" id="type">Тип</span>
                         </div>
                         <input type="text" class="form-control" id="type" aria-describedby="basic-addon3" disabled
                                value="{{member.type}}">
                     </div>
                     <a href="/member/edit/{{member._id}}" class="btn btn-primary">Edit</a>
+                    <a href="/member/delete/{{member._id}}" class="btn btn-primary">Delete</a>
                     <small class="float-right">Създадена: {{dateFixed member.createdAt}}
                         от {{member.createdBy.username}}
                         <br>
@@ -62,6 +71,14 @@
                             <input type="text" class="form-control" id="cardName" aria-describedby="basic-addon3"
                                    disabled
                                    value="{{card.cardName}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">Сериен №</span>
+                            </div>
+                            <input type="text" class="form-control" id="serialNumber" aria-describedby="basic-addon3"
+                                   disabled
+                                   value="{{card.serialNumber}}">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -95,6 +112,7 @@
                                    disabled
                                    value="{{status card.status}}">
                         </div>
+
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#viewMemberCards" id="viewMemberCardsButton">
                             Карти
@@ -284,7 +302,6 @@
         </div>
     </div>
 </div>
-viewMemberCards
 <!-- Modal -->
 <div class="modal fade" id="deleteRecharge" tabindex="-1" aria-labelledby="deleteRecharge" aria-hidden="true">
     <div class="modal-dialog">
@@ -325,6 +342,7 @@ viewMemberCards
                         <th scope="col">Създаден на</th>
                         <th scope="col">Сериен номер</th>
                         <th scope="col">Име</th>
+                        <th scope="col">Брой влизания</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -333,6 +351,7 @@ viewMemberCards
                             <td>{{dateFixed createdAt}}</td>
                             <th scope="row">{{serialNumber}}</th>
                             <th scope="row">{{cardName}}</th>
+                            <th scope="row">{{enteriesCount}}</th>
                         </tr>
                     {{/each}}
                     </tbody>

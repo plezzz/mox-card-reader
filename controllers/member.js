@@ -17,6 +17,7 @@ module.exports = {
             let isActiveCard = false
             let lastTenEntries;
             let activeCardDetails;
+            let totalEntries = 0;
             //TODO: Get Json array from cookie, not just string
 
             let message = []
@@ -54,50 +55,19 @@ module.exports = {
                     }
                     console.log(member.cards)
                     member.cards.forEach(card => {
-                        //  console.log(card.entries)
-                        if (typeof lastTenEntries != "object") {
-                            lastTenEntries = card.entries
-                        } else {
-                            Object.assign(lastTenEntries, card.entries)
-                        }
-                        //  console.log(lastTenEntries)
+                        let entries = card.entries.length;
+                        card.enteriesCount = entries;
+                        totalEntries += entries;
                         if (card.status === true) {
                             isActiveCard = true
                             activeCardDetails = card
                         }
                     })
+                    member.totalEntries = totalEntries;
                     console.log(lastTenEntries)
                     if (isActiveCard) {
-                        activeCardDetails.entries = [
-                            {
-                                _id: "613c862127d1290016fa38f8",
-                                createdAt: "2021-09-11T10:34:10.004Z",
-                                updatedAt: "2021-09-11T10:34:10.004Z",
-                                __v: 0
-                            },
-                            {
-                                _id: "613c86ad27d1290016fa38fe",
-                                createdAt: "2021-09-11T10:36:29.425Z",
-                                updatedAt: "2021-09-11T10:36:29.425Z",
-                                __v: "0"
-                            },
-                            {
-                                _id: "613c86ad27d1290016fa38fe",
-                                createdAt: "2021-09-11T10:36:29.425Z",
-                                updatedAt: "2021-09-11T10:36:29.425Z",
-                                __v: "0"
-                            }
-                            ,
-                            {
-                                _id: "613c86ad27d1290016fa38fe",
-                                createdAt: "2021-09-11T10:36:29.425Z",
-                                updatedAt: "2021-09-11T10:36:29.425Z",
-                                __v: "0"
-                            }
 
-                        ]
-                        console.log(typeof activeCardDetails.entries)
-                        activeCardDetails.entries.slice(0, 5)
+                       // activeCardDetails.entries.slice(0, 5)
                         //console.log(activeCardDetails.entries)
                         options['card'] = activeCardDetails
                         res.render(templateDir('details'), options)
@@ -146,8 +116,8 @@ module.exports = {
                 .catch(next)
         },
         delete(req, res, next) {
-            let id = req.params.courseId;
-            Course
+            let id = req.params.memberID;
+            Member
                 .deleteOne({_id: id})
                 .then(() => {
                     res.redirect('/')
@@ -171,7 +141,7 @@ module.exports = {
             let id = req.params.cardID;
             let memberID = req.query.memberID;
             console.log(req.query)
-            Card.findOneAndUpdate({_id: id}, { status: false })
+            Card.findOneAndUpdate({_id: id}, {status: false})
                 .then(
                     res.redirect(`/member/details/${memberID}`)
                 )
@@ -217,7 +187,7 @@ module.exports = {
             let id = req.params.memberID;
             const userID = req.user._id;
             let {serialNumber} = req.body;
-            if (serialNumber === "#"){
+            if (serialNumber === "#") {
                 throw new Error(`Invalid serial number`)
             }
             //  console.log("Serial Number: " + cardID, "User: " + userID, "Member: " + id)
