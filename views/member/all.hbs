@@ -1,0 +1,35 @@
+<p>Всички картодържатели</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Дата и час на създаване/промяна</th>
+        <th scope="col">Име</th>
+        <th scope="col">Фамилия</th>
+        <th scope="col">Имейл</th>
+        <th scope="col">Телефон</th>
+        <th scope="col">Тип</th>
+        <th scope="col">By</th>
+        <th scope="col">Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each members}}
+        <tr>
+            <td>{{dateFixed createdAt}} от {{createdBy.username}}<br>{{dateFixed updatedAt}} от {{editedBy.username}}</td>
+            <th scope="row">{{firstName}}</th>
+            <th scope="row">{{lastName}}</th>
+            <td>{{email}}</td>
+            <td>{{phone}}</td>
+            <td>{{type}}</td>
+            <td>{{createdBy.username}}</td>
+
+
+
+            <td>
+                <a href="/member/details/{{_id}}" class="btn btn-primary">Виж повече</a>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+    <!--        TODO: Must be with pagination-->
+</table>

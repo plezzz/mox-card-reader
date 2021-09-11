@@ -22,7 +22,8 @@ module.exports = {
                 serialNumber1,
                 serialNumber2,
                 serialNumber3,
-                serialNumber
+                serialNumber,
+                deviceID
             } = req.body
 
             let serialNumberByValue = [serialNumber0, serialNumber1, serialNumber2, serialNumber3];
@@ -52,7 +53,7 @@ module.exports = {
                                     periods.push(range.contains(moment()));
                                 })
                                 if (periods.includes(true)) {
-                                    Entries.create({}).then(function (el) {
+                                    Entries.create({deviceID}).then(function (el) {
                                         Card.updateOne({_id: result[0]._id}, {$push: {entries: el._id}}).then(function (el) {
                                             res.json({item1: `${member.firstName} ${member.lastName}`, item2: "Valid", item3: 1})
                                             console.log('valid card')

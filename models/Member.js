@@ -23,7 +23,7 @@ module.exports = (mongoose) => {
         type:{
             type:String,
         },
-        card: [{
+        cards: [{
             type: ObjectId,
             ref: "Card"
         }],

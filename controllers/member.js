@@ -14,6 +14,8 @@ module.exports = {
         },
         details(req, res, next) {
             let id = req.params.memberID;
+            let activeCard = false
+            let lastTenEntries = [];
             //TODO: Get Json array from cookie, not just string
 
             let message = []
@@ -25,6 +27,14 @@ module.exports = {
                 .findOne({_id: id})
                 .populate('createdBy')
                 .populate('editedBy')
+                .populate({
+                    path: 'cards',
+                    populate: {
+                        path: 'entries',
+                        model: 'Entries'
+                    },
+                    options: {sort: {'createdAt': -1}}
+                })
                 .populate({
                     path: 'recharge',
                     populate: {
@@ -41,29 +51,38 @@ module.exports = {
                         console.log(message)
                         options['message'] = message
                     }
-                    if (member.card.length > 0) {
-                        Card.findOne({_id: member.card[0]._id})
-                            .lean()
-                            .populate({
-                                path: 'entries',
-                                options: {
-                                    sort: {createdAt: -1},
-                                    limit: 10,
-                                    // skip: req.params.pageIndex*2
 
-                                }
-                            })
-                            .limit(1)
-                            .then(card => {
-                                // card.entries.sort(function (a, b) {
-                                //     var c = new Date(a.createdAt);
-                                //     var d = new Date(b.createdAt);
-                                //     return c - d;
-                                // });
-                                options['card'] = card
-                                //   console.log(options)
-                                res.render(templateDir('details'), options)
-                            })
+                    member.cards.forEach(card=>{
+                        console.log(card.entries)
+                        lastTenEntries.concat(card.entries)
+                        if (card.status === true){
+                            activeCard = true
+                        }
+                    })
+                    console.log(lastTenEntries)
+                    if (activeCard) {
+
+                        // Card.findOne({_id: member.card[0]._id})
+                        //     .lean()
+                        //     .populate({
+                        //         path: 'entries',
+                        //         options: {
+                        //             limit: 10,
+                        //             sort: {createdAt: -1},
+                        //             // skip: req.params.pageIndex*2
+                        //         }
+                        //     })
+                        //     .limit(1)
+                        //     .then(card => {
+                        //         // card.entries.sort(function (a, b) {
+                        //         //     var c = new Date(a.createdAt);
+                        //         //     var d = new Date(b.createdAt);
+                        //         //     return c - d;
+                        //         // });
+                        //         options['card'] = card
+                        //         //   console.log(options)
+                        //         res.render(templateDir('details'), options)
+                        //     })
 
                     } else {
                         Card
@@ -96,16 +115,18 @@ module.exports = {
                 })
                 .catch(next)
         },
-        enroll(req, res, next) {
-            let courseID = req.params.courseId;
-            let userID = req.user._id;
-            Promise.all([
-                User.updateOne({_id: userID}, {$push: {courses: courseID}}),
-                Course.updateOne({_id: courseID}, {$push: {usersEnrolled: userID}})
-            ]).then(() => {
-                res.redirect(`/course/details/${courseID}`)
-            })
-                .catch(next)
+        all(req, res, next) {
+
+            Member
+                .find({})
+                .populate('createdBy')
+                .populate('editedBy')
+                .lean()
+                .then(
+                    members => {
+                        res.render(templateDir('all'),{members})
+                    }
+                )
         }
     },
 
