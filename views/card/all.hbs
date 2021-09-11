@@ -1,0 +1,31 @@
+<p>Всички картодържатели</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Дата и час на създаване/промяна</th>
+        <th scope="col">Сериен номер</th>
+        <th scope="col">Име</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Телефон</th>
+        <th scope="col">Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each cards}}
+        <tr>
+            <td>{{dateFixed createdAt}}</td>
+            <th scope="row">{{serialNumber}}</th>
+            <th scope="row">{{cardName}}</th>
+            <td>{{{cardStatus this}}}</td>
+            <td>{{cardOwner.firstName}} {{cardOwner.lastName}}</td>
+            <td>
+                {{#if cardOwner}}
+                <a href="/member/details/{{cardOwner._id}}" class="btn btn-primary">Виж картодържател</a>
+                {{/if}}
+                <a href="/member/details/{{cardOwner._id}}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+    <!--        TODO: Must be with pagination-->
+</table>

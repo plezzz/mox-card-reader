@@ -14,8 +14,9 @@ module.exports = {
         },
         details(req, res, next) {
             let id = req.params.memberID;
-            let activeCard = false
-            let lastTenEntries = [];
+            let isActiveCard = false
+            let lastTenEntries;
+            let activeCardDetails;
             //TODO: Get Json array from cookie, not just string
 
             let message = []
@@ -51,17 +52,55 @@ module.exports = {
                         console.log(message)
                         options['message'] = message
                     }
-
-                    member.cards.forEach(card=>{
-                        console.log(card.entries)
-                        lastTenEntries.concat(card.entries)
-                        if (card.status === true){
-                            activeCard = true
+                    console.log(member.cards)
+                    member.cards.forEach(card => {
+                        //  console.log(card.entries)
+                        if (typeof lastTenEntries != "object") {
+                            lastTenEntries = card.entries
+                        } else {
+                            Object.assign(lastTenEntries, card.entries)
+                        }
+                        //  console.log(lastTenEntries)
+                        if (card.status === true) {
+                            isActiveCard = true
+                            activeCardDetails = card
                         }
                     })
                     console.log(lastTenEntries)
-                    if (activeCard) {
+                    if (isActiveCard) {
+                        activeCardDetails.entries = [
+                            {
+                                _id: "613c862127d1290016fa38f8",
+                                createdAt: "2021-09-11T10:34:10.004Z",
+                                updatedAt: "2021-09-11T10:34:10.004Z",
+                                __v: 0
+                            },
+                            {
+                                _id: "613c86ad27d1290016fa38fe",
+                                createdAt: "2021-09-11T10:36:29.425Z",
+                                updatedAt: "2021-09-11T10:36:29.425Z",
+                                __v: "0"
+                            },
+                            {
+                                _id: "613c86ad27d1290016fa38fe",
+                                createdAt: "2021-09-11T10:36:29.425Z",
+                                updatedAt: "2021-09-11T10:36:29.425Z",
+                                __v: "0"
+                            }
+                            ,
+                            {
+                                _id: "613c86ad27d1290016fa38fe",
+                                createdAt: "2021-09-11T10:36:29.425Z",
+                                updatedAt: "2021-09-11T10:36:29.425Z",
+                                __v: "0"
+                            }
 
+                        ]
+                        console.log(typeof activeCardDetails.entries)
+                        activeCardDetails.entries.slice(0, 5)
+                        //console.log(activeCardDetails.entries)
+                        options['card'] = activeCardDetails
+                        res.render(templateDir('details'), options)
                         // Card.findOne({_id: member.card[0]._id})
                         //     .lean()
                         //     .populate({
@@ -124,8 +163,17 @@ module.exports = {
                 .lean()
                 .then(
                     members => {
-                        res.render(templateDir('all'),{members})
+                        res.render(templateDir('all'), {members})
                     }
+                )
+        },
+        archive(req, res, next) {
+            let id = req.params.cardID;
+            let memberID = req.query.memberID;
+            console.log(req.query)
+            Card.findOneAndUpdate({_id: id}, { status: false })
+                .then(
+                    res.redirect(`/member/details/${memberID}`)
                 )
         }
     },
@@ -169,10 +217,13 @@ module.exports = {
             let id = req.params.memberID;
             const userID = req.user._id;
             let {serialNumber} = req.body;
+            if (serialNumber === "#"){
+                throw new Error(`Invalid serial number`)
+            }
             //  console.log("Serial Number: " + cardID, "User: " + userID, "Member: " + id)
             Promise.all([
                 Card.updateOne({_id: serialNumber}, {cardOwner: id}),
-                Member.updateOne({_id: id}, {$push: {card: serialNumber}}),
+                Member.updateOne({_id: id}, {$push: {cards: serialNumber}}),
             ]).then((value => {
                 res.redirect(`/member/details/${id}`)
             }))

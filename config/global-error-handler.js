@@ -8,15 +8,17 @@ module.exports = function globalErrorHandler(err, req, res, next) {
         res.render(res.locals.validationErrorViewName, {errors: err, ...req.body});
         return;
     }
-    console.log(err)
-    if (err === 'The start date falls within a paid period') {
-        render(`recharge/create`, [err], true)
+    console.log("Error is:", err)
+    console.log("Messages is:", err.message)
+
+    if (err.message === 'The start date falls within a paid period') {
+        res.cookie("error", "Зададената дата попада в платен период", {httpOnly: true});
+        res.redirect(`/member/details/${req.body.memberID}`)
         return;
     }
-    if (err === 'Edit: The start date falls within a paid period') {
-        console.log(req.body)
-       res.cookie("error", "The start date falls within a paid period", { httpOnly: true });
-       res.redirect('/member/details/6118f94f83b5fc360001b4d0')
+    if (err.message === 'Invalid serial number') {
+        res.cookie("error", "Невалиден сериен номер на картата", {httpOnly: true});
+        res.redirect(`/member/details/${getMemberID(req.originalUrl)}`)
         return;
     }
 
@@ -67,6 +69,12 @@ module.exports = function globalErrorHandler(err, req, res, next) {
         obj ? obj = req.body : null;
         res.render(path, {message, obj});
     }
+
+    function getMemberID(url) {
+        let path = url.split('/')
+        return path[3]
+    }
+
 
     res.render('error/error', {message});
 };

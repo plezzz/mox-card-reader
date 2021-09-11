@@ -95,11 +95,17 @@
                                    disabled
                                    value="{{status card.status}}">
                         </div>
-                        <a href="#" class="btn btn-primary">Edit</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#viewMemberCards" id="viewMemberCardsButton">
+                            Карти
+                        </button>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#createRecharge" id="createRechargeButton">
-                            Edit
+                            Презареди
                         </button>
+                        <a href="/member/archive/{{card._id}}?memberID={{member._id}}" class="btn btn-danger">Архивирай
+                        карта</a>
+
                         <small class="float-right">Create: {{dateFixed member.createdAt}}
                             from {{member.createdBy.username}}<br>
                             Edit: {{dateFixed member.updatedAt}} from: {{member.editedBy.username}}
@@ -211,7 +217,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="text-center border border-light p-5" method="post">
+                <form class="text-center border border-light p-5" method="post" action="/recharge/creater">
                     <h1>Recharge card</h1>
                     <div class="wrapper">
                         <div class="form-group">
@@ -225,8 +231,7 @@
                                    autocomplete="off" min="1" max="12" step="1" value="{{obj.months}}"/>
                         </div>
                         <div class="form-group">
-                            <label for="member">Member</label>
-                            <input type="hidden" class="form-control" required="required" id="member" name="member"
+                            <input type="hidden" class="form-control" required="required" id="memberID" name="memberID"
                                    autocomplete="off" value="{{member._id}}"/>
                         </div>
                     </div>
@@ -279,7 +284,7 @@
         </div>
     </div>
 </div>
-
+viewMemberCards
 <!-- Modal -->
 <div class="modal fade" id="deleteRecharge" tabindex="-1" aria-labelledby="deleteRecharge" aria-hidden="true">
     <div class="modal-dialog">
@@ -296,12 +301,43 @@
                         <input type="hidden" class="form-control" required="required" id="memberID" name="memberID"
                                autocomplete="off" value="{{member._id}}"/>
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Затвори</button>
                         <button type="submit" class="btn btn-warning">Да</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="viewMemberCards" tabindex="-1" aria-labelledby="viewMemberCards" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Създаден на</th>
+                        <th scope="col">Сериен номер</th>
+                        <th scope="col">Име</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each member.cards}}
+                        <tr>
+                            <td>{{dateFixed createdAt}}</td>
+                            <th scope="row">{{serialNumber}}</th>
+                            <th scope="row">{{cardName}}</th>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                    <!--        TODO: Must be with pagination-->
+                </table>
             </div>
         </div>
     </div>
@@ -319,7 +355,7 @@
     });
 </script>
 <script>
-   // $('#createRechargeButton')[0].click();
+    // $('#createRechargeButton')[0].click();
 </script>
 <script type="text/javascript">
     function setID(tableRow, a) {
@@ -331,3 +367,27 @@
         form.setAttribute('action', `/recharge/${path}/${id}`);
     }
 </script>
+<!--{-->
+<!--"_id":"613c9c79d9ded70016459ad6",-->
+<!--"serialNumberByValue":[156,38,33,50],-->
+<!--"status":true,-->
+<!--"entries":[{"_id":"613c862127d1290016fa38f8",-->
+<!--"createdAt":"2021-09-11T10:34:10.004Z",-->
+<!--"updatedAt":"2021-09-11T10:34:10.004Z",-->
+<!--"__v":0},{-->
+<!--"_id":"613c86ad27d1290016fa38fe",-->
+<!--"createdAt":"2021-09-11T10:36:29.425Z",-->
+<!--"updatedAt":"2021-09-11T10:36:29.425Z",-->
+<!--"__v":"0"},{-->
+<!--"_id":"613c86ad27d1290016fa38fe",-->
+<!--"createdAt":"2021-09-11T10:36:29.425Z",-->
+<!--"updatedAt":"2021-09-11T10:36:29.425Z","__v":"0"},{-->
+<!--"_id":"613c86ad27d1290016fa38fe","createdAt":"2021-09-11T10:36:29.425Z",-->
+<!--"updatedAt":"2021-09-11T10:36:29.425Z","__v":"0"}],-->
+<!--"cardName":"MIFARE 1KB",-->
+<!--"serialNumber":"156383350",-->
+<!--"title":"69dcf4af-3122-4aa7-b6bf-9d939f7cea70",-->
+<!--"createdAt":"2021-09-11T12:09:29.706Z",-->
+<!--"updatedAt":"2021-09-11T12:15:45.798Z","__v":0,-->
+<!--"cardOwner":"613c8e9cd540b348946f5c6b"}-->
+<!--{"_id":"613c9c6ad9ded70016459ad3","serialNumberByValue":[39,205,187,181],"status":false,"entries":[],"cardName":"MIFARE 1KB","serialNumber":"39205187181","title":"796e024e-a507-4fe6-abc5-e71cc6c3422e","createdAt":"2021-09-11T12:09:14.772Z","updatedAt":"2021-09-11T12:15:43.994Z","__v":0,"cardOwner":"613c8e9cd540b348946f5c6b"}-->

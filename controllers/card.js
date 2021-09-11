@@ -6,10 +6,21 @@ const MomentRange = require('moment-range');
 
 const moment = MomentRange.extendMoment(Moment);
 
+let templateDir = (doc) => {
+    return `card/${doc}`
+};
 
 module.exports = {
     get: {
-
+        all: function (req, res, next) {
+            Card
+                .find({})
+                .populate('cardOwner')
+                .lean()
+                .then(cards => {
+                    res.render(templateDir('all'), {cards})
+                })
+        }
     },
 
     post: {
@@ -55,16 +66,23 @@ module.exports = {
                                 if (periods.includes(true)) {
                                     Entries.create({deviceID}).then(function (el) {
                                         Card.updateOne({_id: result[0]._id}, {$push: {entries: el._id}}).then(function (el) {
-                                            res.json({item1: `${member.firstName} ${member.lastName}`, item2: "Valid", item3: 1})
+                                            res.json({
+                                                item1: `${member.firstName} ${member.lastName}`,
+                                                item2: "Valid",
+                                                item3: 1
+                                            })
                                             console.log('valid card')
                                         })
                                     })
                                 } else {
-                                    res.json({item1: `${member.firstName} ${member.lastName}`, item2: "Not Valid", item3: 0})
+                                    res.json({
+                                        item1: `${member.firstName} ${member.lastName}`,
+                                        item2: "Not Valid",
+                                        item3: 0
+                                    })
                                     console.log('not valid card')
                                 }
                             })
-
 
 
                     } else {

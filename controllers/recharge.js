@@ -38,7 +38,7 @@ module.exports = {
                                 })
                         })
                 } else {
-                    next('The start date falls within a paid period')
+                    throw new Error('The start date falls within a paid period')
                 }
             }).catch(next)
         },

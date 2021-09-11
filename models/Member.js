@@ -51,5 +51,5 @@ module.exports = (mongoose) => {
         }
     });
 
-    return Model('member', memberSchema);
+    return Model('Member', memberSchema);
 };

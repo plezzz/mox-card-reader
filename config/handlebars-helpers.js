@@ -71,10 +71,19 @@ module.exports = {
     reverse: function (array) {
         return array.reverse()
     },
-    json: function (context){
+    json: function (context) {
         return JSON.stringify(context);
     },
-    ifCond: function (arr1,arr2, options){
+    ifCond: function (arr1, arr2, options) {
         return arr1.length > 0 || arr2.length > 0 ? options.fn(this) : options.inverse(this);
     },
+    cardStatus: function (card) {
+        if (card.status) {
+            if (card.cardOwner) {
+                return "Валидна"
+            }
+            return "Неактивирана"
+        }
+        return 'Архивирана'
+    }
 }
