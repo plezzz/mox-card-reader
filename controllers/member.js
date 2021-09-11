@@ -33,7 +33,7 @@ module.exports = {
                     path: 'cards',
                     populate: {
                         path: 'entries',
-                        model: 'Entries'
+                        model: 'Entries',
                     },
                     options: {sort: {'createdAt': -1}}
                 })
@@ -46,30 +46,41 @@ module.exports = {
                     options: {sort: {'createdAt': -1}}
                 })
                 .lean()
-                .then(member => {
+                .then(async member => {
                     let options = {member}
                     if (message.length > 0) {
                         console.log(message.length)
                         console.log(message)
                         options['message'] = message
                     }
-                    console.log(member.cards)
+                    let ids = [];
                     member.cards.forEach(card => {
                         let entries = card.entries.length;
                         card.enteriesCount = entries;
                         totalEntries += entries;
+                        card.entries.forEach(entry => {
+                            ids.push(entry._id)
+                        })
                         if (card.status === true) {
                             isActiveCard = true
                             activeCardDetails = card
                         }
                     })
                     member.totalEntries = totalEntries;
-                    console.log(lastTenEntries)
+                    // Entries
+                    //     .find()
+                    //     .where('_id')
+                    //     .in(ids)
+                    //     .exec((err, records) => {
+                    //    lastTenEntries = records;
+                    //    // lastTenEntries = records
+                    // });
+                    await Entries.find({_id: {$in: ids}}).sort({createdAt: -1}).limit(10).lean().then((results) => {
+                      //  console.log(results)
+                        options['entries'] = results
+                    })
                     if (isActiveCard) {
-
-                       // activeCardDetails.entries.slice(0, 5)
                         //console.log(activeCardDetails.entries)
-                        options['card'] = activeCardDetails
                         res.render(templateDir('details'), options)
                         // Card.findOne({_id: member.card[0]._id})
                         //     .lean()

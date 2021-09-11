@@ -52,7 +52,7 @@ module.exports = {
                 serialNumber,
                 deviceID
             } = req.body
-            console.log("Card data type", cardType);
+            console.log("Card data type: ", cardType);
 
             let serialNumberByValue = [serialNumber0, serialNumber1, serialNumber2, serialNumber3];
 
@@ -67,7 +67,7 @@ module.exports = {
                             serialNumberByValue,
                             title: uuid.v4()
                         }).then(function (el) {
-                            res.json({item1: `Created new card with id ${el._id}`, item2: "Пешо", item3: 1})
+                            res.json({item1: `Created new card with id ${el._id}`, item2: "Пешо", item3: 2})
                         })
                     } else if (result.length === 1) {
                         Member.findById(result[0].cardOwner).populate({
@@ -88,7 +88,6 @@ module.exports = {
                                                 item2: "Valid",
                                                 item3: 1
                                             })
-                                            console.log('valid card')
                                         })
                                     })
                                 } else {
@@ -97,7 +96,6 @@ module.exports = {
                                         item2: "Not Valid",
                                         item3: 0
                                     })
-                                    console.log('not valid card')
                                 }
                             })
 
