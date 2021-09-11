@@ -20,12 +20,14 @@ module.exports = {
                 .then(cards => {
                     res.render(templateDir('all'), {cards})
                 })
+        },
+        delete: function (req, res, next) {
+
         }
     },
 
     post: {
         cardData: function (req, res, next) {
-            console.log('card read')
             let {
                 cardType,
                 cardName,
@@ -36,7 +38,7 @@ module.exports = {
                 serialNumber,
                 deviceID
             } = req.body
-
+            console.log(cardType)
             let serialNumberByValue = [serialNumber0, serialNumber1, serialNumber2, serialNumber3];
 
             Card.find({serialNumber: serialNumber}, function (err, result) {
