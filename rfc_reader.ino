@@ -131,6 +131,7 @@ void mainCode(){
      doc["serialNumber2"]   = rfid.uid.uidByte[2];
      doc["serialNumber3"]   = rfid.uid.uidByte[3];
      doc["serialNumber"] = printRoute(rfid.uid.uidByte, rfid.uid.size);
+     doc["deviceID"] = 1001;
      String json;
      serializeJson(doc, json);
 
@@ -155,29 +156,47 @@ void mainCode(){
       const char * cardStatus = res ["item2"];
       const int cardStatusNum = res ["item3"];
        Serial.println(cardStatusNum);
+       display.clearDisplay();
+       display.setCursor(0, 5);
        if(cardStatusNum == 1){
         led(0,230,0);
-      Serial.println("if valid");
-       }else{
+        display.println("Card:");
+        display.println(printRoute(rfid.uid.uidByte, rfid.uid.size));
+        display.println("User:");
+        display.println(user);
+        display.println("Status:");
+        display.println();
+        display.println(cardStatus);
+        Serial.println("if valid");
+       }else if (cardStatusNum == 2){
+        led(100,230,100);
+        display.println("Card:");
+        display.println(printRoute(rfid.uid.uidByte, rfid.uid.size));
+        display.println(user);
+        }
+        else if (cardStatusNum == 3){
+        led(230,230,100);
+        display.println("Card:");
+        display.println(printRoute(rfid.uid.uidByte, rfid.uid.size));
+        display.println(user);
+        display.println(cardStatus);
+        }
+        else{
        led(230,0,0);
+       display.println("Card:");
+       display.println(printRoute(rfid.uid.uidByte, rfid.uid.size));
+       display.println("User:");
+       display.println(user);
+       display.println("Status:");
+       display.println();
+       display.println(cardStatus);
        Serial.println("if not valid");
        }
-  display.clearDisplay();
-  display.setCursor(0, 5);
-  // Display static text
-
-  display.println("Card:");
-  display.println(printRoute(rfid.uid.uidByte, rfid.uid.size));
-  display.println("User:");
-  display.println(user);
-  display.println("Status:");
-  display.println();
-  display.println(cardStatus);
-  display.display();
-
+    display.display();
       }
     } else {
       Serial.printf("[HTTPS] POST... failed, error: %s\n", https.errorToString(httpCode).c_str());
+      displayPrint2("HTTP ERROR","Call Niki");
     }
     https.end();
     }else{

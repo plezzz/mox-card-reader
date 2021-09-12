@@ -67,20 +67,12 @@ module.exports = {
                         }
                     })
                     member.totalEntries = totalEntries;
-                    // Entries
-                    //     .find()
-                    //     .where('_id')
-                    //     .in(ids)
-                    //     .exec((err, records) => {
-                    //    lastTenEntries = records;
-                    //    // lastTenEntries = records
-                    // });
                     await Entries.find({_id: {$in: ids}}).sort({createdAt: -1}).limit(10).lean().then((results) => {
-                      //  console.log(results)
                         options['entries'] = results
                     })
                     if (isActiveCard) {
                         //console.log(activeCardDetails.entries)
+                        options['card'] = activeCardDetails
                         res.render(templateDir('details'), options)
                         // Card.findOne({_id: member.card[0]._id})
                         //     .lean()

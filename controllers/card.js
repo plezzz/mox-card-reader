@@ -33,8 +33,7 @@ module.exports = {
 
                 })
             Card
-                .findOne({_id: cardID}).remove().exec().then(() => {
-                console.log(req)
+                .findOne({_id: cardID}).deleteOne().exec().then(() => {
                 res.redirect('/card/all-cards');
             })
         }
@@ -42,6 +41,7 @@ module.exports = {
 
     post: {
         cardData: function (req, res, next) {
+            console.log('card read')
             let {
                 cardType,
                 cardName,
@@ -53,6 +53,8 @@ module.exports = {
                 deviceID
             } = req.body
             console.log("Card data type: ", cardType);
+            console.log("Card data type: ");
+            console.log(cardType);
 
             let serialNumberByValue = [serialNumber0, serialNumber1, serialNumber2, serialNumber3];
 
@@ -78,6 +80,14 @@ module.exports = {
                                     options: {limit: 10, sort: {'createdAt': -1}}
                                 })
                                 .then(member => {
+                                    if (member === null){
+                                        res.json({
+                                            item1: `Error:`,
+                                            item2: "Card is archive without card holder",
+                                            item3: 3
+                                        })
+                                        return
+                                    }
                                     let periods = [];
                                     member.recharge.forEach(recharge => {
                                         let range = moment().range(moment(recharge.from), moment(recharge.to))
@@ -108,9 +118,8 @@ module.exports = {
                                 item3: 3
                             })
                         }
-
                     } else {
-                        res.json({text: "Call Niki, Not unique serial number", item2: "item2val"});
+                        res.json({item1: "Call Niki, Not unique serial number", item2: "item2val"});
                         //TODO: Is unique serialNumber or not
                     }
                 }
