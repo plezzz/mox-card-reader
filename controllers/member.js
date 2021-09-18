@@ -49,8 +49,6 @@ module.exports = {
                 .then(async member => {
                     let options = {member}
                     if (message.length > 0) {
-                        console.log(message.length)
-                        console.log(message)
                         options['message'] = message
                     }
                     let ids = [];
@@ -70,32 +68,12 @@ module.exports = {
                     await Entries.find({_id: {$in: ids}}).sort({createdAt: -1}).limit(10).lean().then((results) => {
                         options['entries'] = results
                     })
+                    await Entries.find({_id: {$in: ids}}).sort({createdAt: -1}).lean().then((results) => {
+                        options['entriesAll'] = results
+                    })
                     if (isActiveCard) {
-                        //console.log(activeCardDetails.entries)
                         options['card'] = activeCardDetails
                         res.render(templateDir('details'), options)
-                        // Card.findOne({_id: member.card[0]._id})
-                        //     .lean()
-                        //     .populate({
-                        //         path: 'entries',
-                        //         options: {
-                        //             limit: 10,
-                        //             sort: {createdAt: -1},
-                        //             // skip: req.params.pageIndex*2
-                        //         }
-                        //     })
-                        //     .limit(1)
-                        //     .then(card => {
-                        //         // card.entries.sort(function (a, b) {
-                        //         //     var c = new Date(a.createdAt);
-                        //         //     var d = new Date(b.createdAt);
-                        //         //     return c - d;
-                        //         // });
-                        //         options['card'] = card
-                        //         //   console.log(options)
-                        //         res.render(templateDir('details'), options)
-                        //     })
-
                     } else {
                         Card
                             .find({cardOwner: {$eq: null}})
@@ -107,23 +85,12 @@ module.exports = {
                     }
                 })
         },
-        edit(req, res, next) {
-            let id = req.params.memberID;
-
-            Member
-                .findOne({_id: id})
-                .lean()
-                .then(member => {
-                    res.render(templateDir('edit'), member)
-                })
-                .catch(next)
-        },
         delete(req, res, next) {
             let id = req.params.memberID;
             Member
                 .deleteOne({_id: id})
                 .then(() => {
-                    res.redirect('/')
+                    res.redirect('/member/all')
                 })
                 .catch(next)
         },
@@ -140,15 +107,7 @@ module.exports = {
                     }
                 )
         },
-        archive(req, res, next) {
-            let id = req.params.cardID;
-            let memberID = req.query.memberID;
-            console.log(req.query)
-            Card.findOneAndUpdate({_id: id}, {status: false})
-                .then(
-                    res.redirect(`/member/details/${memberID}`)
-                )
-        }
+
     },
 
     post: {
@@ -172,10 +131,8 @@ module.exports = {
                         firstName, lastName, email, phone, type, editedBy
                     }, {runValidators: true}, function (err, result) {
                         if (err) {
-                            console.log(err)
                             if (err.code === 11000) {
-                                next(errorCourse.alreadyInUseObj);
-
+                                next("Existing filed");
                             }
                         }
                     }
@@ -193,7 +150,6 @@ module.exports = {
             if (serialNumber === "#") {
                 throw new Error(`Invalid serial number`)
             }
-            //  console.log("Serial Number: " + cardID, "User: " + userID, "Member: " + id)
             Promise.all([
                 Card.updateOne({_id: serialNumber}, {cardOwner: id}),
                 Member.updateOne({_id: id}, {$push: {cards: serialNumber}}),

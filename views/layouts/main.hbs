@@ -1,27 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>MOX Card Holders</title>
-    <link href="/css/site.css" type="text/css" rel="stylesheet">
-    <link href="/css/horizotal-timeline.css" type="text/css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="/module/bootstrap-5.1.0/css/bootstrap.min.css">
-    <script src="/module/bootstrap-5.1.0/js/bootstrap.min.js"></script>
-    <link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Material Admin Extended Dark</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+
+    <!-- Vendor styles -->
+    <link rel="stylesheet" href="vendors/zwicon/zwicon.min.css">
+    <link rel="stylesheet" href="vendors/animate.css/animate.min.css">
+    <link rel="stylesheet" href="vendors/overlay-scrollbars/OverlayScrollbars.min.css">
+    <link href="vendors/fullcalendar/core/main.min.css" rel="stylesheet">
+    <link href="vendors/fullcalendar/daygrid/main.min.css" rel="stylesheet">
+    <link href="css/horizotal-timeline.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="vendors/flatpickr/flatpickr.min.css" />
+    <!-- App styles -->
+    <link rel="stylesheet" href="css/app.min.css">
+
+    <!-- Demo -->
+    <link rel="stylesheet" href="demo/css/demo.css">
 </head>
+
 <body>
-<div class="container">
+<div class="page-loader">
+    <div class="loader">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+    </div>
+</div>
+
+<header class="header">
     {{>header}}
     {{#if message}}
         {{>error}}
     {{/if}}
-    <main>
+</header>
+
+<div class="main">
+    {{>navigation}}
+    <section class="content">
         {{{ body }}}
-    </main>
-    <footer>
-        {{>footer}}
-    </footer>
+    </section>
 </div>
+
+<!-- Vendors -->
+<script type="text/javascript" src="vendors/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="vendors/popper.js/popper.min.js"></script>
+<script type="text/javascript" src="vendors/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="vendors/overlay-scrollbars/jquery.overlayScrollbars.min.js"></script>
+<script type="text/javascript" src="vendors/headroom/headroom.min.js"></script>
+<script type="text/javascript" src="vendors/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="vendors/flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="vendors/flot/flot.curvedlines/curvedLines.js"></script>
+<script type="text/javascript" src="vendors/sparkline/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="vendors/easy-pie-chart/jquery.easypiechart.min.js"></script>
+<script type="text/javascript" src="vendors/jqvmap/jquery.vmap.min.js"></script>
+<script type="text/javascript" src="vendors/jqvmap/maps/jquery.vmap.world.js"></script>
+<script type="text/javascript" src="vendors/fullcalendar/core/main.min.js"></script>
+<script type="text/javascript" src="vendors/fullcalendar/daygrid/main.min.js"></script>
+<script type="text/javascript" src="vendors/flatpickr/flatpickr.min.js"></script>
+
+<!-- Vendors: Data tables -->
+<script src="vendors/datatables/jquery.dataTables.min.js"></script>
+<script src="vendors/datatables/datatables-buttons/dataTables.buttons.min.js"></script>
+<script src="vendors/datatables/datatables-buttons/buttons.print.min.js"></script>
+<script src="vendors/jszip/jszip.min.js"></script>
+<script src="vendors/datatables/datatables-buttons/buttons.html5.min.js"></script>
+
+
+
+
+
+<!-- App functions -->
+<script type="text/javascript" src="js/app.min.js"></script>
 </body>
 </html>

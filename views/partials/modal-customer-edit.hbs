@@ -1,0 +1,40 @@
+<div class="modal fade" id="customerEdit" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Промяна на валидност</h5>
+            </div>
+            <div class="modal-body">
+                <form class="text-center border border-light p-5" action="/member/edit/{{member._id}}" method="POST">
+                    <h1>Edit Member</h1>
+                    <div class="form-group">
+                        <label for="firstName">Име</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Име" name="firstName"
+                               value="{{member.firstName}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Фамилия</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Фамилия" name="lastName"
+                               value="{{member.lastName}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Имейл</label>
+                        <input type="email" class="form-control" id="email" placeholder="Имейл" name="email" value="{{member.email}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Телефон" name="phone" value="{{member.phone}}">
+                    </div>
+                    <label for="type">Type - {{member.type}}</label>
+                    <select id="type" name="type">
+                        {{#select type}}
+                            <option value="regular">Нормален</option>
+                            <option value="vip">VIP</option>
+                        {{/select}}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Промени</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

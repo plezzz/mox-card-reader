@@ -1,5 +1,15 @@
-<section class="notifications">
-    {{#each message}}
-        <p class="notification-message">{{this}}</p>
-    {{/each}}
-</section>
+{{#each message}}
+    <div class="toast-demo-container mb-3">
+        <div class="toast fade show toast--right" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="zwicon-close-circle text-danger"></i>
+                <strong>Грешка</strong>
+                <small></small>
+                <i class="zwicon-close-circle" data-dismiss="toast"></i>
+            </div>
+            <div class="toast-body text-danger">
+                {{this}}
+            </div>
+        </div>
+    </div>
+{{/each}}

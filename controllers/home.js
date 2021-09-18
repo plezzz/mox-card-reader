@@ -12,7 +12,7 @@ module.exports = {
                             members: value[0],
                             cards: value[1],
                         }
-                        res.render('home/home', options)
+                        res.render('home/dashboard', options)
                     })
                     .catch(next);
             }else {

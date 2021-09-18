@@ -125,7 +125,17 @@ module.exports = {
                 }
             })
         },
-    }
+        archive(req, res, next) {
+            let id = req.params.cardID;
+            let memberID = req.body.memberID;
+            console.log(id,memberID)
+            Card.findOneAndUpdate({_id: id}, {status: false})
+                .then(
+                    res.redirect(`/member/details/${memberID}`)
+                )
+        }
+    },
+
 };
 
 

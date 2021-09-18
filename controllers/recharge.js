@@ -9,10 +9,6 @@ let templateDir = (doc) => {
 
 module.exports = {
     get: {
-        create(req, res) {
-            let id = req.query.id;
-            res.render(templateDir('create'), {id})
-        },
     },
 
     post: {
@@ -21,7 +17,6 @@ module.exports = {
             const user = req.user._id;
             let {date, months, memberID} = req.body
             let {from, to} = momentDates.fromTo(date, months)
-            console.log(memberID)
             Member.findOne({_id: memberID}).populate({
                 path: 'recharge',
                 options: {limit: 10, sort: {'createdAt': -1}}
@@ -56,7 +51,6 @@ module.exports = {
                 let isInRange = momentDates.checkRange(filtered, from, to)
 
                 if (!isInRange) {
-                    console.log(id,from,to,months,user)
                     Recharge
                         .updateOne({_id: id}, {$set: {from, to, months, editedBy: user}})
                         .then(() => {

@@ -1,0 +1,23 @@
+<div class="modal fade" id="archiveCard" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Архивиране на карта</h5>
+            </div>
+            <div class="modal-body">
+                <form class="text-center" method="post" action="/card/archive/{{card._id}}">
+                    <p class="text-danger">Сигурни ли сте, че искате да архивирате картата?</p>
+                    <div class="form-group">
+                        <label for="memberID"></label>
+                        <input type="hidden" class="form-control" required="required" id="memberID" name="memberID"
+                               autocomplete="off" value="{{member._id}}"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Затвори</button>
+                        <button type="submit" class="btn btn-danger">Архивирай</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

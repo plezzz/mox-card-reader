@@ -1,60 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/"><img src="https://gmzone.eu/logo/Mox_Logo_White.png" alt="Logo" class="logo"/></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mx-auto">
-                {{#if isLogged}}
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Здравей, {{username}}</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Картодържатели
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" href="/member/create">Добави картодържател</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/member/all">Всички картодържатели</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/card/all-cards">Всички карти</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Администрация
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" href="/register">Добави работник</a>
-                            </li>
-                        </ul>
-                    </li>
-                {{else}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Начало</a>
-                    </li>
-                {{/if}}
-            </ul>
-            <div class="d-flex">
-                <form class="d-flex" method="get" action="/search/result">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
-                </form>
-                {{#if isLogged}}
-                    <a class="btn btn-danger" href="/logout">Изход</a>
-                {{else}}
-                    <a class="nav-link btn btn-danger" href="/login">Вход</a>
-                {{/if}}
-            </div>
+<div class="header__main">
+    <i class="navigation-toggle zwicon-hamburger-menu d-xl-none"></i>
+
+    <div class="logo d-none d-md-block">
+        <a href="/">
+            <img src="img/logo/Mox_Logo_White.png" alt="logo mox" width="100px">
+        </a>
+    </div>
+{{#if isLogged}}
+    <form class="search" method="get" action="/search/result">
+        <input type="search" class="search__input" placeholder="Търсене за карти и картодържатели" name="q" aria-label="Search">
+        <i class="zwicon-search search__helper"></i>
+        <i class="zwicon-arrow-left search__reset"></i>
+    </form>
+
+    <div class="user dropdown">
+        <a data-toggle="dropdown" class="d-block" href="#">
+            <img class="user__img" src="https://robohash.org/{{username}}" alt="robohash user image">
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-header">Здравей {{username}}!</div>
+            <a class="dropdown-item" href="profile-about.html"><i class="zmdi zmdi-account"></i> View Profile</a>
+            <a class="dropdown-item" href="#"><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
+            <a class="dropdown-item" href="#"><i class="zmdi zmdi-settings"></i> Settings</a>
+            <a class="dropdown-item" href="/logout"><i class="zmdi zmdi-time-restore"></i>Изход</a>
         </div>
     </div>
-</nav>
+</div>
+{{else}}
+    <a class="link-info" href="/login"><i class="zmdi zmdi-settings"></i> Вход</a>
+{{/if}}

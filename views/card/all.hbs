@@ -1,31 +1,42 @@
-<p>Всички картодържатели</p>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">Дата и час на създаване/промяна</th>
-        <th scope="col">Сериен номер</th>
-        <th scope="col">Име</th>
-        <th scope="col">Статус</th>
-        <th scope="col">Картодържател</th>
-        <th scope="col">Действие</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each cards}}
-        <tr>
-            <td>{{dateFixed createdAt}}</td>
-            <th scope="row">{{serialNumber}}</th>
-            <th scope="row">{{cardName}}</th>
-            <td>{{{cardStatus this}}}</td>
-            <td>{{cardOwner.firstName}} {{cardOwner.lastName}}</td>
-            <td>
-                {{#if cardOwner}}
-                <a href="/member/details/{{cardOwner._id}}" class="btn btn-primary">Виж картодържател</a>
-                {{/if}}
-                <a href="/card/delete-card/{{_id}}" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-    {{/each}}
-    </tbody>
-    <!--        TODO: Must be with pagination-->
-</table>
+<header class="content__title">
+    <h1>Данни за всички карти</h1>
+</header>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Всички карти</h4>
+<!--        <h6 class="card-subtitle">DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, and will add advanced interaction controls to any HTML table.</h6>-->
+
+        <div class="table-responsive data-table">
+            <table id="data-table" class="table">
+                <thead>
+                <tr>
+                    <th>Дата и час на създаване/промяна</th>
+                    <th>Сериен номер</th>
+                    <th>Име</th>
+                    <th>Статус</th>
+                    <th>Картодържател</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each cards}}
+                    <tr>
+                        <td>{{dateFixed createdAt}}</td>
+                        <td>{{serialNumber}}</td>
+                        <td>{{cardName}}</td>
+                        <td>{{{cardStatus this}}}</td>
+                        <td>{{cardOwner.firstName}} {{cardOwner.lastName}}</td>
+                        <td>
+                            {{#if cardOwner}}
+                                <a href="/member/details/{{cardOwner._id}}" class="btn btn-primary">Виж картодържател</a>
+                            {{/if}}
+                            <a href="/card/delete-card/{{_id}}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

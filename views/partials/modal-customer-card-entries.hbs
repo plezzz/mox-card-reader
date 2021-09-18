@@ -1,0 +1,30 @@
+<div class="modal fade" id="viewEntries" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Всички посещения на потребителя</h5>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive data-table">
+                    <table id="data-table" class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">На</th>
+                            <th class="text-center">От устройство</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each entriesAll}}
+                            <tr>
+                                <td>{{dateFixed createdAt}}</td>
+                                <td>{{deviceID}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

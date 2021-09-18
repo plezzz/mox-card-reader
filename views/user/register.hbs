@@ -1,21 +1,66 @@
-<form class="text-center border border-light p-5" action="/register" method="post">
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" placeholder="Username" name="username"
-               value="{{obj.username}}">
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password" name="password"
-               value="{{obj.password}}">
-    </div>
+<!--<form class="text-center border border-light p-5" action="/register" method="post">-->
+<!--    <div class="form-group">-->
+<!--        <label for="username">Username</label>-->
+<!--        <input type="text" class="form-control" id="username" placeholder="Потребителско име" name="username"-->
+<!--               value="{{obj.username}}">-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <label for="password">Password</label>-->
+<!--        <input type="password" class="form-control" id="password" placeholder="Парола" name="password"-->
+<!--               value="{{obj.password}}">-->
+<!--    </div>-->
 
-    <div class="form-group">
-        <label for="repeatPassword">Repeat Password</label>
-        <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat-Password"
-               name="repeatPassword"
-               value="{{obj.repeatPassword}}">
-    </div>
+<!--    <div class="form-group">-->
+<!--        <label for="repeatPassword">Repeat Password</label>-->
+<!--        <input type="password" class="form-control" id="repeatPassword" placeholder="Повтори паролата"-->
+<!--               name="repeatPassword"-->
+<!--               value="{{obj.repeatPassword}}">-->
+<!--    </div>-->
 
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+<!--    <button type="submit" class="btn btn-primary">Register</button>-->
+<!--</form>-->
+<header class="content__title">
+    <h1>Добавяне на нов работник</h1>
+</header>
+
+<div class="card">
+    <div class="card-body">
+        <!--        <h4 class="card-title">Form row</h4>-->
+        <!--        <h6 class="card-subtitle">You may also swap <code>.row</code> for <code>.form-row</code>, a variation of our standard grid row that overrides the default column gutters for tighter and more compact layouts.</h6>-->
+
+        <!--        <h5 class="card-body__title">Complex layout</h5>-->
+        <!--        <p>More complex layouts can also be created with the grid system.</p>-->
+
+        <br>
+
+        <form action="/register" method="post">
+            <div class="form-row justify-content-center">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="username">Потребителско име</label>
+                        <input type="text" class="form-control" id="username" placeholder="Потребителско име"
+                               name="username"
+                               value="{{obj.username}}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row justify-content-center">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="password">Парола</label>
+                        <input type="password" class="form-control" id="password" placeholder="Парола" name="password"
+                               value="{{obj.password}}">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="repeatPassword">Повтори паролата</label>
+                    <input type="password" class="form-control" id="repeatPassword" placeholder="Повтори паролата"
+                           name="repeatPassword"
+                           value="{{obj.repeatPassword}}">
+                </div>
+            </div>
+            <button type="submit" class="login__btn login_button">Добави</button>
+        </form>
+    </div>
+</div>
+

@@ -9,7 +9,20 @@ module.exports = function globalErrorHandler(err, req, res, next) {
         return;
     }
     console.log("Error is:", err)
+    console.log("Error code is:", err.code)
     console.log("Messages is:", err.message)
+    console.log("Messages is:", err._message)
+
+    if (err === "Existing filed" || err.code === 11000){
+        if (err.code !== 10000){
+            res.cookie("error", `Съществуващо поле`, {httpOnly: true});
+        }else {
+            res.cookie("error", `Съществуващо поле ${Object.keys(err.keyValue)} - ${Object.values(err.keyValue)}`, {httpOnly: true});
+        }
+        res.redirect(`/member/details/${getMemberID(req.originalUrl)}`)
+        return;
+    }
+
 
     if (err.message === 'The start date falls within a paid period') {
         res.cookie("error", "Зададената дата попада в платен период", {httpOnly: true});
@@ -25,7 +38,7 @@ module.exports = function globalErrorHandler(err, req, res, next) {
     if (err.message === 'BAD_REQUEST') {
         message = 'Bad Request!';
     } else if (err.message === 'UNAUTHORIZED') {
-        message = 'You don\'t have permission to view this';
+        message = 'Нямате позволение да гледате това';
     }
 
     if (['jwt malformed'].includes(err.message)) {
@@ -53,6 +66,18 @@ module.exports = function globalErrorHandler(err, req, res, next) {
     if (err._message === 'User validation failed') {
         let messages = normalizeErrors(err.errors)
         render('user/register', messages, true)
+        return;
+    }
+
+    if (err === 'The given phone is already is use!') {
+        let messages = ['The given phone is already is use!']
+        render('member/create', messages, true)
+        return;
+    }
+
+    if (err.message === 'Member validation failed: email: Email is required!') {
+        let messages = normalizeErrors(err.errors)
+        render('member/create', messages, true)
         return;
     }
 

@@ -14,6 +14,7 @@ module.exports = (mongoose) => {
         email: {
             type: String,
             unique: [true, errorMember.alreadyInUseEmail],
+            required: [true, errorMember.email]
         },
         phone: {
             type: String,
@@ -45,7 +46,7 @@ module.exports = (mongoose) => {
 
     memberSchema.post('save', function (error, doc, next) {
         if (error.name === 'MongoError' && error.code === 11000) {
-            next(errorMember.alreadyInUsePhone);
+            next(errorMember.alreadyInUseEmail);
         } else {
             next(error);
         }

@@ -1,0 +1,32 @@
+{{#if isLogged}}
+    <aside class="sidebar navigation">
+        <div class="scrollbar">
+            <hr>
+            <ul class="navigation__menu">
+                <li>
+                    <a class="text-active-blue " href="/"><i class="zwicon-home text-blue"></i>Начало</a>
+                </li>
+                <li>
+                    <a class="text-active-blue " href="/member/create"><i class="zwicon-user-plus text-yellow"></i>Добави
+                        картодържател</a>
+                </li>
+                <li>
+                    <a class="text-active-blue " href="/member/all"><i class="zwicon-users text-orange"></i>Всички
+                        картодържатели</a>
+                </li>
+                <li>
+                    <a class="text-active-blue " href="/card/all-cards"><i class="zwicon-credit-card text-amber"></i>Всички
+                        карти</a>
+                </li>
+                <li>
+                    <a class="text-active-blue " href="/register"><i class="zwicon-user text-cyan"></i>Добави
+                        работник</a>
+                </li>
+            </ul>
+            <hr>
+            <footer class="footer">
+                {{>footer}}
+            </footer>
+        </div>
+    </aside>
+{{/if}}
